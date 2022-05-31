@@ -1,7 +1,7 @@
 import { ColumnDefinition } from "../packets/column_definition.ts";
 import { Command } from "./command.ts";
 import { Query } from "./query.ts";
-import { Execute as PacketsExecute } from "../packets/execute.ts";
+import { Execute as PacketsExecute } from "../packets/execute.js";
 import { Packet } from "../packets/packet.ts";
 import { Connection } from "../connection.ts";
 
@@ -137,6 +137,8 @@ class Execute extends Command {
 (Execute.prototype as any).done = Query.prototype.done;
 // deno-lint-ignore no-explicit-any
 (Execute.prototype as any).doneInsert = Query.prototype.doneInsert;
+// deno-lint-ignore no-explicit-any
+(Execute.prototype as any).resultsetHeader = Query.prototype.resultsetHeader;
 // deno-lint-ignore no-explicit-any
 (Execute.prototype as any)._findOrCreateReadStream =
   // deno-lint-ignore no-explicit-any
