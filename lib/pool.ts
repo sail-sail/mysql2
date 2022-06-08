@@ -6,6 +6,7 @@ import { EventEmitter, Denque as Queue, nextTick } from "../deps.ts";
 import { PoolConnection } from "./pool_connection.ts";
 import { Connection } from "./connection.ts";
 import { PromisePool } from "../promise.ts";
+import { PoolConfig } from "./pool_config.ts";
 
 function spliceConnection(queue: Queue, connection: Connection) {
   const len = queue.length;
@@ -19,7 +20,7 @@ function spliceConnection(queue: Queue, connection: Connection) {
 
 class Pool extends EventEmitter {
   
-  config: any;
+  config: PoolConfig;
   _allConnections: Queue<any>;
   _freeConnections: Queue<any>;
   _connectionQueue: Queue<any>;
