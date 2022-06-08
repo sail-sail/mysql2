@@ -31,7 +31,7 @@ export { LRUCache } from "https://deno.land/x/sail_lru_cache@v7.10.3/mod.ts";
 import * as named_placeholders from "https://deno.land/x/named_placeholders@v1.0.0/mod.ts";
 import { genfun } from "https://deno.land/x/generate_function@v1.0.0/mod.ts";
 
-import * as seq_queue from "https://deno.land/x/seq_queue@v1.0.0/mod.ts";
+import * as seq_queue from "https://deno.land/x/seq_queue@v1.0.1/mod.ts";
 
 export { nextTick } from "https://deno.land/std@0.142.0/node/_process/process.ts";
 
