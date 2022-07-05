@@ -39,11 +39,11 @@ class ColumnDefinition {
   type: number;
   flags: number;
   decimals: number;
-  catalog: string|undefined;
-  schema: string|undefined;
-  orgName: string|undefined;
-  table: string|undefined;
-  orgTable: string|undefined;
+  catalog: string;
+  schema: string;
+  orgName: string;
+  table: string;
+  orgTable: string;
   
   constructor(packet: Packet, clientEncoding: string) {
     this._buf = packet.buffer;
@@ -81,6 +81,17 @@ class ColumnDefinition {
     this.type = this.columnType;
     this.flags = packet.readInt16();
     this.decimals = packet.readInt8();
+    
+    // deno-lint-ignore no-self-assign
+    this.catalog = this.#catalog;
+    // deno-lint-ignore no-self-assign
+    this.schema = this.#schema;
+    // deno-lint-ignore no-self-assign
+    this.orgName = this.#orgName;
+    // deno-lint-ignore no-self-assign
+    this.table = this.#table;
+    // deno-lint-ignore no-self-assign
+    this.orgTable = this.#orgTable;
   }
 
   inspect() {
@@ -134,36 +145,72 @@ class ColumnDefinition {
   get db() {
     return this.schema;
   }
+  
+  get #catalog() {
+    const name = "catalog";
+    const start = this[`_${name}Start`];
+    const end = start + this[`_${name}Length`];
+    const val = StringParser.decode(
+      this._buf,
+      this.encoding === 'binary' ? this._clientEncoding : this.encoding,
+      start, 
+      end
+    );
+    return val;
+  }
+  
+  get #schema() {
+    const name = "schema";
+    const start = this[`_${name}Start`];
+    const end = start + this[`_${name}Length`];
+    const val = StringParser.decode(
+      this._buf,
+      this.encoding === 'binary' ? this._clientEncoding : this.encoding,
+      start, 
+      end
+    );
+    return val;
+  }
+  
+  get #table() {
+    const name = "table";
+    const start = this[`_${name}Start`];
+    const end = start + this[`_${name}Length`];
+    const val = StringParser.decode(
+      this._buf,
+      this.encoding === 'binary' ? this._clientEncoding : this.encoding,
+      start, 
+      end
+    );
+    return val;
+  }
+  
+  get #orgTable() {
+    const name = "orgTable";
+    const start = this[`_${name}Start`];
+    const end = start + this[`_${name}Length`];
+    const val = StringParser.decode(
+      this._buf,
+      this.encoding === 'binary' ? this._clientEncoding : this.encoding,
+      start, 
+      end
+    );
+    return val;
+  }
+  
+  get #orgName() {
+    const name = "orgName";
+    const start = this[`_${name}Start`];
+    const end = start + this[`_${name}Length`];
+    const val = StringParser.decode(
+      this._buf,
+      this.encoding === 'binary' ? this._clientEncoding : this.encoding,
+      start, 
+      end
+    );
+    return val;
+  }
+  
 }
-
-const addString = function(name: string) {
-  Object.defineProperty(ColumnDefinition.prototype, name, {
-    get: function() {
-      const start = this[`_${name}Start`];
-      const end = start + this[`_${name}Length`];
-      const val = StringParser.decode(
-        this._buf,
-        this.encoding === 'binary' ? this._clientEncoding : this.encoding,
-        start, 
-        end
-      );
-      
-      Object.defineProperty(this, name, {
-        value: val,
-        writable: false,
-        configurable: false,
-        enumerable: false
-      });
-
-      return val;
-    }
-  });
-};
-
-addString('catalog');
-addString('schema');
-addString('table');
-addString('orgTable');
-addString('orgName');
 
 export { ColumnDefinition };

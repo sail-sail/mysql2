@@ -6,7 +6,7 @@ fock by https://github.com/sidorares/node-mysql2
 
 ## usage
 ```ts
-import * as mysql2 from "https://deno.land/x/mysql2@v1.0.0/mod.ts";
+import * as mysql2 from "https://deno.land/x/mysql2/mod.ts";
 
 const pool = mysql2.createPool({
   host: "127.0.0.1",
